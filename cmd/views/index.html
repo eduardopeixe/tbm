@@ -1,0 +1,43 @@
+{{ block "index" . }}
+<html>
+    <head>
+        <title>TBM</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./css/styles.css">
+        <script src="https://unpkg.com/htmx.org/dist/htmx.min.js"></script>
+    </head>
+    <body>
+        {{ template "navbar" . }}
+        {{ template "create-user" . }}
+        <hr/>
+        {{ template "contact-list" . }}  
+    </body>
+
+</html>
+{{ end }}
+
+{{ block "create-user" . }}
+<form hx-swap="outerHTML" hx-target="#contacts" hx-post="/contacts">
+    name: <input type="text" name="name" />
+    email: <input type="email" name="email" />
+    <button type="submit">Create</button>
+</form>
+{{ end }}
+
+{{ block "contact-list" . }}
+    <div id="contacts">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>    
+            </tr>
+            {{ range .Contacts }}
+            <tr>
+                <td>{{ .Name }}</td>
+                <td>{{ .Email }}</td>
+            </tr>
+            {{ end }}
+        </table>
+    </div>
+{{ end }}
